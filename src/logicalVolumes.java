@@ -8,6 +8,7 @@ public class logicalVolumes extends LogicalVolumeManager{
     // **name, uuid so extended the LogicalVolumeManager
     public logicalVolumes(String name, UUID uuid,volumeGroups group,int size){
      super(name, uuid);
+     this. size= size;
     }
       //accesor method
     public volumeGroups getGroup() {
