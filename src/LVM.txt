@@ -32,6 +32,7 @@ public UUID getUuid()-* returns the instance variable uuid
 accessor method which will return the randomly generated UUID that is already installed in java
  which is randomly generated when a user provides a name stored in the name instance variable
  --------------------------------------------------------------------------------------------------------------------------
+
   SUB-CLASS
  ------logicalVolumes class-----------
  class pre-info needed:this class will act as instantiated part of the LogicalVolumeManager class  as it extends that class
@@ -53,6 +54,7 @@ size to the size the user inputs when calling a logicalVolumes object
 --------------------
 public int getSize()- accessor method which when called will return the size of the lgicalVolumes object
 -----------------------------------------------------------------------------------------------------------------------------------------------
+
 OWN CLASS MAIN NEEDED CLASS
 ---------physicalHardDrive--------
 class info- this class does not extend any other class or is extended through any class. It is really the
@@ -85,6 +87,7 @@ physicalVolume getPv()- accessor method which returns the instance pv which is t
 Pv(physicalVolume pv)-setter method which sets a physicalVolume object created through physicalVolume that user places in here to instance
 pv.
 -----------------------------------------------------------------------------------------------------------------------------------------------
+
  SUB-CLASS
  ------physicalVolume class-----------
  class info:this class will act as instantiated part of the LogicalVolumeManager class  as it extends that class
@@ -117,6 +120,7 @@ public volumeGroups getVolume() -accessor method returns the volume instance whi
 
 public void volume-setter method- sets a volumeGroups object created in this method to the instance volume as PVs can also be added to Volume Group.
 -----------------------------------------------------------------------------------------------------------------------------------------------
+
 SUB-CLASS
  ------volumeGroups class-----------
  class info:this class will act as instantiated part of the LogicalVolumeManager class  as it extends that class
@@ -149,6 +153,7 @@ this object volumeGroups
 public ArrayList<logicalVolumes> getLogicalVolumes()-accessor method returns the instance list physicalVol or in other words list of physical volumes with
 this object volumeGroups
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 OWN CLASS MAIN NEEDED CLASS
 ---------commands CLASS-----------
 class info: will be used to denote what commands  is being called and setting the procedures for each command to use the subclasses
@@ -216,6 +221,7 @@ required:  Install hard drives
   public void VolList()-list all of the information about volumeGroups in the vol list such as the the size of the volume group adding the physicalVolume and
  the free space left in the specfic volume groups
  -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
   ---------Main class---------
   Step 1: call the scanner class and ask the user to input the command they want to use in the LVM system
   Step 2: create a boolean that will be set to false until the user inputs something like they want to leave
