@@ -5,21 +5,23 @@ public class volumeGroups extends LogicalVolumeManager{
     // **name, uuid so extended the LogicalVolumeManager
     // a list from the physicalVolumes class and Logical Volumes
     private ArrayList<physicalVolume> physicalVol= new ArrayList<physicalVolume>();
-    private ArrayList<logicalVolumes> logicalVolumes= new ArrayList<logicalVolumes>();
-    int size=0;
+    private ArrayList<logicalVolumes> logicalVolum= new ArrayList<logicalVolumes>();
+    private double size;
+    private double space;
 
     // constructor calling the superclass
-    public volumeGroups(String name, UUID uuid, ArrayList<physicalVolume> physicalVo, ArrayList<logicalVolumes> logicalVolumes){
-        super(name, uuid);
-        this.physicalVol= physicalVol;
-        this.logicalVolumes= logicalVolumes;
+    public volumeGroups(String name, physicalVolume physical ){
+        super(name);
+        physicalVol.add(physical);
+        this.size= size;
+        this.space= space;
 
     }
     // accesor methods
 
 
     public ArrayList<logicalVolumes> getLogicalVolumes() {
-        return logicalVolumes;
+        return logicalVolum;
     }
 
     public ArrayList<physicalVolume> getPhysicalVol() {
@@ -27,24 +29,31 @@ public class volumeGroups extends LogicalVolumeManager{
     }
     // now make methods of thic class that would get the size , and display the amount of free space
 
-    public int sizeofVolumeGroup(){
-        int size=0;
+    public double sizeofVolumeGroup(){
+          size=0;
       for (physicalVolume add: physicalVol){
-          size+=add.size();
+          size+=add.getsizePv();
       }
        return size;
     }
     // a method to calculate the free space is needed
-    public int freeSpaceOfVG(){
-        int space=0;
-        for (logicalVolumes free: logicalVolumes  ){ // find total useing logical operations
-            space+= free.getSize();
+    public double freeSpaceOfVG(){
+         double space2=0;
+        for (logicalVolumes free: logicalVolum  ){ // find total useing logical operations
+            space2+= free.getSize();
         }
-        for (physicalVolume free: physicalVol ){
-            space-= free.size();
-        }
+        space=sizeofVolumeGroup()- space2;
 
        return space;
 
     }
-}
+
+    public void extend(physicalVolume v) {
+        physicalVol.add(v);
+            sizeofVolumeGroup();
+            freeSpaceOfVG();
+        }
+    }
+
+
+

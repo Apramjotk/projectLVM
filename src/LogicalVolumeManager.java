@@ -6,9 +6,9 @@ public class LogicalVolumeManager {
     private UUID uuid;
 
     // make a constructor for the main superclass
-    public LogicalVolumeManager(String name, UUID uuid){
+    public LogicalVolumeManager(String name){
         this.name= name;
-        this.uuid= uuid;
+        uuid= UUID.randomUUID();
     }
     // now make a accesor method for each since they will be used in the other subclasses
 
@@ -19,4 +19,5 @@ public class LogicalVolumeManager {
     public UUID getUuid() {
         return uuid;
     }
+    //
 }
