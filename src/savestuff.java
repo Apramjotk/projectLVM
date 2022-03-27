@@ -35,23 +35,6 @@ public class savestuff {
         }
 
     }
-    public static void writeToFile(String file,ArrayList<physicalHardDrive> PDList, ArrayList<physicalVolume> PVList, ArrayList<volumeGroups> VGList, ArrayList<logicalVolumes> LVList)
-    {
-        try {
-            //needs to replace everythin
-            FileWriter myWriter = new FileWriter("save.txt");
-            for(physicalHardDrive i : PDList)
-            {
-                myWriter.write("Files in Java might be \n bruh");
-            }
-
-            myWriter.close();
-            System.out.println("Data Successfully Saved");
-        } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
-    }
 
 }
 

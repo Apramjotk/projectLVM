@@ -276,10 +276,7 @@ public class commands {
 
 
 
-    public void saveData()
-    {
-        savestuff.writeToFile("save.txt",drive,physicalVol,vol,logicalVolum);
-    }
+
 
 
 }
