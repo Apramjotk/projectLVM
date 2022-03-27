@@ -13,8 +13,7 @@ public class volumeGroups extends LogicalVolumeManager{
     public volumeGroups(String name, physicalVolume physical ){
         super(name);
         physicalVol.add(physical);
-        this.size= size;
-        this.space= space;
+
 
     }
     // accesor methods
@@ -48,11 +47,7 @@ public class volumeGroups extends LogicalVolumeManager{
 
     }
 
-    public void extend(physicalVolume v) {
-        physicalVol.add(v);
-            sizeofVolumeGroup();
-            freeSpaceOfVG();
-        }
+
     }
 
 

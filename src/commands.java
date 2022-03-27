@@ -160,7 +160,7 @@ public class commands {
         }
     }
     public void VGCreate(String option) {
-
+        x= false;
      volumeGroups v;
      physicalVolume p;
      System.out.println(doesThisRepeat(option));

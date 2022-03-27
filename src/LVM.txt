@@ -1,1 +1,228 @@
-lm
+Design Document projectLVM
+-------LogicalVolumeManager class info -------
+class info: the purpose of this class is it will act as the superclass or the declartion class
+as it will have the most common instance variables that are present in all the other classes of the LVM
+system. This superclass will have the information on the volumeGroups class, physicalVolume class,logicalVolumes class
+who will act as the subclasses when it pertains to the objects name (name) and UUID uuid
+----------------
+Instance varibles
+------------------
+In this class there are 2 instance variables:
+private String name-name of the object or the name of the part in a LVM System for the subclasses which
+is the user provided name for that part of the system
+
+private UUID uuid- the uuid will be randomly generated UUID that is already installed in java
+shich is randomly generated when a user provides a name stored in the name instance variable, you want one whole whole group
+to have one uuid so this will remain in this class.
+-------------------
+   Constructor
+------------------
+public LogicalVolumeManager(String name)- this is the constructor of the LogicalVolumeManager class which will be used to
+call in the subclasses of this class for the objects name and uuid. If a user wants to create a physicalVolume
+with the name pv1 then the constructor is called in the physicalVolume that will set the name of the object
+of the class as pv1.
+-------------------
+     Methods
+--------------------
+public String getName()-* returns the instance variable name
+accessor method which will return the name of the  part in a LVM System for the subclasses which
+is the user provided name for that part of the system
+
+public UUID getUuid()-* returns the instance variable uuid
+accessor method which will return the randomly generated UUID that is already installed in java
+ which is randomly generated when a user provides a name stored in the name instance variable
+ --------------------------------------------------------------------------------------------------------------------------
+  SUB-CLASS
+ ------logicalVolumes class-----------
+ class pre-info needed:this class will act as instantiated part of the LogicalVolumeManager class  as it extends that class
+ meaning this class will act a sublcass that will use the instance variables of the LogicalVolumeManager class (name) to create
+ file structures of the LVM system
+Some things to note: this class needs size, UUID, user provided name and show up the volumeGroup class
+----------------
+Instance varibles
+------------------
+private int size-  the size of the  logicalVolume that is created
+-------------------
+   Constructor
+------------------
+public logicalVolumes(String name,int size)- the command super(name) is used to call the superclass LogicalVolumeManager which takes the name
+the user creates for the logicalVolume and stores it using the getName() method in the superclass. This method also sets the instance variable
+size to the size the user inputs when calling a logicalVolumes object
+-------------------
+     Methods
+--------------------
+public int getSize()- accessor method which when called will return the size of the lgicalVolumes object
+-----------------------------------------------------------------------------------------------------------------------------------------------
+OWN CLASS MAIN NEEDED CLASS
+---------physicalHardDrive--------
+class info- this class does not extend any other class or is extended through any class. It is really the
+fundamental element of the LVM system in which neither a physicalVolume(as each needs one) or Volume Group can be created without
+as it sets a size and.
+----------------
+Instance varibles
+------------------
+private String name- this is the name of the hard drive the user creates
+
+private int size-this is the size of a object hard drive the user creates
+
+private physicalVolume pv- the physicalVolume associated with the hard drive since in a LVm system
+each physicalVolume has only one associated physical hard drive so an object is created it also needs a  physicalVolume associated with it.
+-------------------
+   Constructor
+------------------
+public physicalHardDrive(String name, int size)- this constructors sets the value of the instance
+variables name and size but not the pv because that is set after a hardrive is set
+which is only when a name and size is added by the user. When the user calls this constructor a name and suze is set
+-------------------
+     Methods
+--------------------
+getName()-accessor method which returns the instance name( name of the hard drive the user creates)
+
+getSize()-accessor method which returns the instance size (size of a object hard drive the user creates)
+
+physicalVolume getPv()- accessor method which returns the instance pv which is the physicalVolume associated with the hard drive
+
+Pv(physicalVolume pv)-setter method which sets a physicalVolume object created through physicalVolume that user places in here to instance
+pv.
+-----------------------------------------------------------------------------------------------------------------------------------------------
+ SUB-CLASS
+ ------physicalVolume class-----------
+ class info:this class will act as instantiated part of the LogicalVolumeManager class  as it extends that class
+             meaning this class will act a sublcass that will use the instance variables of the LogicalVolumeManager class (name) to create
+             file structures of the LVM system.
+ Requirements: this class needed one associated physical hard drive, name, uuid and be part of VolumeGroup
+ ----------------
+ Instance varibles
+ ------------------
+ private physicalHardDrive hardDrive- the hard drive that is associated with the physicalVolume object
+
+  private volumeGroups volume- the volume groups the physicalVolume is associated with
+
+ private int size2-the size of the  physicalVolume that is created
+-------------------
+   Constructor
+------------------
+public physicalVolume(String name,physicalHardDrive hardDrive )- the constructor  the command super(name) is used to call the superclass LogicalVolumeManager which takes the name
+the user creates for the physicalVolume and stores it using the getName() method in the superclass. This constructor also sets the instance variable
+hardDrive to the  hardrive object created for this physicalVolume the user inputs when calling a physicalVolume object.
+-------------------
+     Methods
+--------------------
+public int getsizePv ()-accessor method returns the size of the hardrive instance which is the hardrive object created for this physicalVolume
+the user inputs when calling a physicalVolume object.
+
+public physicalHardDrive getHardDrive()-accessor method returns the hardDrive instance associated with the physicalVolume object
+
+public volumeGroups getVolume() -accessor method returns the volume instance which is the volume groups the physicalVolume is associated with
+
+public void volume-setter method- sets a volumeGroups object created in this method to the instance volume as PVs can also be added to Volume Group.
+-----------------------------------------------------------------------------------------------------------------------------------------------
+SUB-CLASS
+ ------volumeGroups class-----------
+ class info:this class will act as instantiated part of the LogicalVolumeManager class  as it extends that class
+            meaning this class will act a sublcass that will use the instance variables of the LogicalVolumeManager class (name) to create
+            a main group consisted of PVs that have Physical Drives.
+ Requirements- uuid, name, list of physical volumes and Logical Volumes, size , free space
+  ----------------
+  Instance varibles
+  ------------------
+ private ArrayList<physicalVolume> physicalVol= new ArrayList<physicalVolume>()-list of physical volumes with this object volumeGroups
+ private ArrayList<logicalVolumes> logicalVolum= new ArrayList<logicalVolumes>()-list of logicalVolumes with this object volumeGroups
+ private double size- total size of the volume group after adding the sizes of all physical volumes objects in the  list of physical volumes with this o
+ bject volumeGroups
+ private double space- free space left in on a VG by  taking difference of the  size instance abd  total PV space
+-------------------
+   Constructor
+------------------
+public volumeGroups(String name, physicalVolume physical )- the constructor  the command super(name) is used to call the superclass LogicalVolumeManager
+which takes the name the user creates for the volumeGroups  and stores it using the getName() method in the superclass. This constructor also adds the
+parameter physical which is a physicalVolume object into the instance variable list  physicalVol.
+-------------------
+     Methods
+--------------------
+public double sizeofVolumeGroup()- returns the instance size to total size of the volume group  by taking the list  physicalVol and getting the size of each
+object in the physicalVolume class to the instance.
+ public double freeSpaceOfVG()-calculate the free space is needed by taking the list logicalVolum ang getting the size of each object of the logicalVolumes
+ class to add in a variable and substacting that variable from the value of the size instance to get the free space left in a vg
+public ArrayList<physicalVolume> getPhysicalVol() -accessor method returns the instance list physicalVol or in other words list of physical volumes with
+this object volumeGroups
+public ArrayList<logicalVolumes> getLogicalVolumes()-accessor method returns the instance list physicalVol or in other words list of physical volumes with
+this object volumeGroups
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+OWN CLASS MAIN NEEDED CLASS
+---------commands CLASS-----------
+class info: will be used to denote what commands  is being called and setting the procedures for each command to use the subclasses
+in the LVM system to do the commands.
+required:  Install hard drives
+          - List drives
+          - Create physical volumes
+          - List physical volumes
+          - Create and extend volume groups
+          - List volume groups
+          - Create and extend logical volumes
+          - List logical volumes
+  ----------------
+  Instance varibles
+  ------------------
+ private ArrayList<physicalVolume> physicalVol = new ArrayList<physicalVolume>()-list of physical volumes objects
+ private ArrayList<logicalVolumes> logicalVolum = new ArrayList<logicalVolumes>()-list of logicalVolumes objects
+ private ArrayList<physicalHardDrive> drive = new ArrayList<physicalHardDrive>()- list of each physicalHardDrive objects associated with
+ each physicalVolume objects
+ private ArrayList<volumeGroups> vol = new ArrayList<volumeGroups>()- list of volumeGroups objects with physical volumes objects  that
+ have physicalHardDrive objects.
+ boolean x= true- sets a boolean  true  if the command is PVCreate and false if command was VGCreate
+-------------------
+     Methods
+--------------------
+ public ArrayList<physicalVolume> getPhysicalVol()-accessor method which returns the instance list physicalVol
+
+ public ArrayList<logicalVolumes> getLogicalVolum()-accessor method which returns the instance list logicalVolum
+
+ public ArrayList<physicalHardDrive> getDrive() -accessor method which returns the instance list drive
+
+ public ArrayList<volumeGroups> getVol() -accessor method which returns the instance list vol
+
+ public boolean alreadyexistDrive() returns a boolean based on if the name of the hardrive already exists in the lists of objects
+ in the instance drive. Used only in the  installDrive(String option) method. Returns true if the name already exists and false if it doesn't
+
+ public void installDrive(String option)- uses the option paramter which is the command the user inputted to tell the system to install a hardrive and
+  alreadyexistDrive() to see if the name the user includes doesn't exist by using string manipulation to get the name which is the first part
+  after the command and the size which is after the name and part of "G". This method installs a new hard drive with a object
+  that has the name of the paramter option and the size of the paramter option. This new paramter is then added to drive list.
+
+  public void listDrives(String option)-list all the drives that have been installed and part of the instance drive in a format
+
+  public boolean doesThisRepeat(String option  )- returns a boolean based on if depending on the value of instance x if the name of new volume group or
+  new physical group repeats in their according list. If so the method returns false.   used only in  PVCreate and VGCreate methods  to see
+  if the commands the user input can be continued for it add the name of the object or error appears
+
+  public String firstName(String option)- returns the first name or part of the string directly after the commands used in all methods
+  beside installDrives
+
+  public String seconeName(String option)- returns the second name or part of the string directly after the commands used in all methods
+   beside installDrives
+
+  public void PVCreate(String option)-create a new physical volume with the size of the given drive after comapring the first and second names of commands
+ and adding the first name which is name of new physical volume  based on the name of second name which is name of hardrive to the list physicalVol
+
+  public void PhysicalVolumeList()- list all of the information about physical volumes such as the size of it's hardrive , what volume group it belongs to,
+ and random uuid made
+
+  public void VGCreate(String option)- create a new logicalVolumes with the physicalVolume after comapring the first and second names of commands
+ and adding the first name which is name of new logicalVolumes  based on the name of second name which is name of physicalVolume
+
+  public void extendVolume (String option)- adds a new physical volume to a volume group
+
+  public void VolList()-list all of the information about volumeGroups in the vol list such as the the size of the volume group adding the physicalVolume and
+ the free space left in the specfic volume groups
+ -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  ---------Main class---------
+  Step 1: call the scanner class and ask the user to input the command they want to use in the LVM system
+  Step 2: create a boolean that will be set to false until the user inputs something like they want to leave
+  Step 3: save a String that stores the response of the user and use if, else if, else statements to see which condition matches the response the most.
+  Step 4: after finding the condition for the  command make an object for the commands class and get call the method from the command class that best fits the condtion and command
+  Step 5: if command was exit say goodbye if none of the above condtions satify say the command the user entered can't be found sorry.
+
+
+
+
