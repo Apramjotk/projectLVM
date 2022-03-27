@@ -6,6 +6,9 @@ public class commands {
     private ArrayList<physicalHardDrive> drive = new ArrayList<physicalHardDrive>();
     private ArrayList<volumeGroups> vol = new ArrayList<volumeGroups>();
     boolean x= true;
+    private String first;
+    private String second;
+    private int space;
 
     public ArrayList<physicalVolume> getPhysicalVol() {
         return physicalVol;
@@ -213,13 +216,71 @@ public class commands {
             System.out.println();
         }
     }
-    public void createLV (String option){
-        int x= option.indexOf(" ")+1;
-        String first= option.substring(x).indexOf(" ")+x;
-
-
+    public void mix(String option){
+      first= option.substring( option.indexOf(" ") + 1,(option.substring(option.indexOf(" ") + 1).indexOf(" ") + option.indexOf(" ") + 1));
+      space = Integer.parseInt(option.substring(option.substring(option.indexOf(" ") + 1).indexOf(" ") + option.indexOf(" ") + 1+ 1,option.substring( option.substring(option.indexOf(" ") + 1).indexOf(" ") + option.indexOf(" ") + 1 + 1).indexOf(" ") +  option.substring(option.indexOf(" ") + 1).indexOf(" ") + option.indexOf(" ") + 1));
+      second = option.substring(option.substring( option.substring(option.indexOf(" ") + 1).indexOf(" ") + option.indexOf(" ") + 1 + 1).indexOf(" ") +  option.substring(option.indexOf(" ") + 1).indexOf(" ") + option.indexOf(" ") + 1 + 2);
 
     }
+    public void createLV (String option) {
+        boolean y= false;
+        mix(option);
+        logicalVolumes l= null;
+        volumeGroups g= null;
+        int x= logicalVolum.size();
+
+        if (x!=0){
+            for (int i=0; i< vol.size(); i++){
+                for(int j=0; j<vol.get(i).getLogicalVolumes().size();j++){
+                    logicalVolumes b =vol.get(i).getLogicalVolumes().get(j);
+                    if (b.getName().equals(first)){
+                        y= true;
+                     System.out.println("This is wrong as "+ first+ "is already in "+ vol.get(i).getName());
+                     break;
+                    }
+
+                }
+            }
+        }
+        if (!y){
+            for (int i=0; i< vol.size(); i++) {
+                g= vol.get(i);
+             if (g.freeSpaceOfVG()-space >=0 && g.getName().equals(second)){
+                 l=new logicalVolumes(first, space);
+                 g.addLV(l);
+                 System.out.println(" created LV " + first+ " to VG "+ second);
+
+             }
+             else if ( g.getName().equals(second)&& g.freeSpaceOfVG()-space <0 ){
+                 System.out.println("This is wrong as there is not enough space as"+ g.freeSpaceOfVG());
+             }
+
+            }
+            }
+        else{
+            System.out.println("This is  no vg to assign a lv named"+ first);
+        }
+        }
+
+        public void lvlist(String option){
+
+
+            for (int i=0; i< logicalVolum.size(); i++)
+            {
+                System.out.println(logicalVolum.get(i).getName() + ": [" + logicalVolum.get(i).getSize() + "G] [" + logicalVolum.get(i).getName() + "] [" + logicalVolum.get(i).getUuid()+ "]");
+                break;
+            }
+        }
+
+
+
+
+
+    public void saveData()
+    {
+        savestuff.writeToFile("save.txt",drive,physicalVol,vol,logicalVolum);
+    }
+
 
 }
 

@@ -19,7 +19,6 @@ public class physicalHardDrive  {
 
     public int getSize()
     {
-        System.out.println(size);
         return size;
     }
     public void Pv(physicalVolume pv)

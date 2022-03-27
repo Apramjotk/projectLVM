@@ -8,8 +8,10 @@ public class Main {
         System.out.println("Welcome to the LVM system. Here are the choices you here. If you want to leave type leave");
         boolean leave = false;
         commands c = new commands();
+        c.saveData();
         String choice = "";
         while (! leave) {
+            System.out.print("cmd#: ");
             choice = input.nextLine().toLowerCase();
             if (choice.contains("install-drive")) {
                 c.installDrive(choice);
@@ -31,9 +33,13 @@ public class Main {
                 c.VolList();
             }
             else if (choice.contains("lvcreate")) {
-                    c.VolList();
-            } else if (choice.contains("exit ")) {
+                    c.createLV(choice);
+            }
+            else if (choice.contains("lvlist")) {
+                c.lvlist(choice);
+            }else if (choice.contains("exit")) {
                 leave = true;
+                System.out.println("Good Bye");
             } else {
                 System.out.println("Our sytem can not handle such a command yet");
             }
