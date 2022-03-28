@@ -194,7 +194,6 @@ public class commands {
 }
    public void extendVolume (String option){
 
-
    }
 
     public void VolList()
@@ -246,8 +245,9 @@ public class commands {
             for (int i=0; i< vol.size(); i++) {
                 g= vol.get(i);
              if (g.freeSpaceOfVG()-space >=0 && g.getName().equals(second)){
-                 l=new logicalVolumes(first, space);
+                 l=new logicalVolumes(first, space,second);
                  g.addLV(l);
+                 logicalVolum.add(l);
                  System.out.println(" created LV " + first+ " to VG "+ second);
 
              }
@@ -262,17 +262,24 @@ public class commands {
         }
         }
 
-        public void lvlist(String option){
+        public void lvlist(String option) {
 
-
-            for (int i=0; i< logicalVolum.size(); i++)
-            {
-                System.out.println(logicalVolum.get(i).getName() + ": [" + logicalVolum.get(i).getSize() + "G] [" + logicalVolum.get(i).getName() + "] [" + logicalVolum.get(i).getUuid()+ "]");
-                break;
+            if (logicalVolum.size()== 0) {
+                System.out.println(" no created PVs!");
             }
+            for (int i = 0; i < logicalVolum.size(); i++) {
+                System.out.print(logicalVolum.get(i).getName() + ": ");
+                System.out.print("[" + logicalVolum.get(i).getSize()+ "G]");
+
+                for (int e = 0; e < logicalVolum.size(); e++) {
+                    System.out.print("[" + logicalVolum.get(i).v() + "] ");
+                }
+                System.out.print("[" + vol.get(i).getUuid() + "]");
+                System.out.println();
+
+            }
+
         }
-
-
 
 
 

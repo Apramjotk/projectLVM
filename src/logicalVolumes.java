@@ -4,17 +4,18 @@ public class logicalVolumes extends LogicalVolumeManager{
     // an associated volume group
 
     private int size;
-    private volumeGroups v;
+    private String v;
     // new size since this has a different size
 
     // **name, uuid so extended the LogicalVolumeManager
-    public logicalVolumes(String name,int size){
+    public logicalVolumes(String name,int size, String v){
      super(name);
 
      this.size= size;
+     this.v= v;
 
     }
-    public volumeGroups v(){
+    public String v(){
         return this.v;
     }
       //accesor method

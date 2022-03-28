@@ -8,7 +8,7 @@ public class Main {
         System.out.println("Welcome to the LVM system. Here are the choices you here. If you want to leave type leave");
         boolean leave = false;
         commands c = new commands();
-        c.saveData();
+
         String choice = "";
         while (! leave) {
             System.out.print("cmd#: ");
