@@ -46,11 +46,19 @@ public class volumeGroups extends LogicalVolumeManager{
        return space;
 
     }
-    public void addLV(logicalVolumes LV)
+    public void addLV(logicalVolumes l)
     {
-        logicalVolum.add(LV);
-        space = space - LV.getSize();
+        logicalVolum.add(l);
+        space = space - l.getSize();
     }
+    public void addphysical(physicalVolume p)
+    {
+        physicalVol.add(p);
+        space+= p.getsizePv();
+        size+= p.getsizePv();
+
+    }
+
 
 
 

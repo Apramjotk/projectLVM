@@ -70,6 +70,7 @@ public class commands {
                 for (int i = 0; i < z; i++) {
                     if (drive.get(i).getName().equals(firstName(option))) {
                         y = false;
+                        break;
 
                     }
                 }
@@ -104,45 +105,44 @@ public class commands {
     public void PVCreate(String option) {
         x= true;
         int z = 0;
-         physicalVolume answer;
+
+        physicalHardDrive pd= null;
 
         if (drive.size() != 0) {
             if (doesThisRepeat(option)) {
                 boolean seen  = false;
                 for (int i = 0; i < drive.size(); i++) {
-                   answer=drive.get(i).getPv();
+
                     if (drive.get(i).getName().equals(seconeName(option))) {
-                        if (answer == null){
-                        physicalHardDrive pd = drive.get(i);
-                        physicalVolume PVcreate = new physicalVolume(firstName(option), pd);
-                        physicalVol.add(PVcreate);
-                        drive.get(i).Pv(PVcreate);
-                        seen = true;
-                        System.out.println(" Created " + firstName(option) + " PV");
-                        break;
+                        if (drive.get(i).getPv() == null) {
+                            pd = drive.get(i);
+                            physicalVolume PVcreate = new physicalVolume(firstName(option), pd);
+                            physicalVol.add(PVcreate);
+                            drive.get(i).Pv(PVcreate);
+                            seen = true;
+                            System.out.println(" Created " + firstName(option) + " PV");
+                            break;
 
+                        }
+                    } else if (drive.get(i).getName().equals(seconeName(option))) {
+                        if (drive.get(i).getPv() != null) {
+                            seen = true;
+                            System.out.println(" HardDrive " + seconeName(option) + " exists for the Physical volume " + drive.get(i).getPv().getName() + "!");
+                        }
                     }
                 }
-                  else if (drive.get(i).getName().equals(seconeName(option)) )
-                  {
-                      if (answer != null) {
-                          seen = true;
-                          System.out.println(" HardDrive " +seconeName(option)  + " exists for the Physical volume " + drive.get(i).getPv().getName() + "!");
-                      }
+                    if (!seen) {
+                        System.out.println( "no Hard Drives " + seconeName(option));
+
                     }
-
-                    if (seen) {
-                        System.out.println(" PV " + firstName(option) + "already exists");
-
-                    } else {
-                        System.out.println(" no Hard Drives " + seconeName(option));
+                }else {
+                        System.out.println("There is already a pv of this name");
                     }
                 }
-            }
-        } else {
+
+         else {
             System.out.println("can't find hard drive for this");
         }
-
 
     }
     public void PhysicalVolumeList() {
@@ -153,7 +153,7 @@ public class commands {
             for(int i=0; i< physicalVol.size();i++){
                 System.out.print("The name of the pv is"+physicalVol.get(i).getName() );
                 System.out.print( physicalVol.get(i).getName() +"["+physicalVol.get(i).getHardDrive().getSize()+" ] " );
-                if (physicalVol.get(i).getVolume().getName()!=null) {
+                if (physicalVol.get(i).getVolume()!=null) {
                     System.out.print("[" + physicalVol.get(i).getVolume().getName() + " ] ");
                 }
                 System.out.print("[" +physicalVol.get(i).getUuid() + "] \n");
@@ -193,6 +193,76 @@ public class commands {
 
 }
    public void extendVolume (String option){
+     String f= firstName(option); boolean vs= vol.size()!=0; boolean ps=physicalVol.size()!=0;
+     String s= seconeName(option);
+     volumeGroups v= null;
+     physicalVolume p= null;
+     boolean z= false;
+     boolean d= false;
+     String a= "";
+     if (!vs && !ps){
+         System.out.println("There is just not enoguh space, no vg created or pv to extend with or from ");
+
+     }
+       if (!vs){
+           a= "In this case the vv is the problem as  vg not created";
+
+       }
+       if (!ps){
+           a= "In this case the ps is the problem as pv not created";
+       }
+
+     if (vs && ps){
+         for (int i=0; i< vol.size(); i++){
+             if (vol.get(i).getName().equals(f)){
+                 volumeGroups store= vol.get(i);
+                 v=store;
+                 z= true;
+
+             }
+
+         }
+         if (z==true){
+             d= false;
+             for (int i=0; i< physicalVol.size(); i++){
+                 if (physicalVol.get(i).getName().equals(s)){
+                     if (physicalVol.get(i).getVolume()==null){
+                         d= true;
+                        p=  physicalVol.get(i);
+                         break;
+                     }
+                     else{
+                        System.out.println("Oh no i problem as the pv you want add is already part of the vg "+physicalVol.get(i).getVolume().getName());
+                        break;
+                     }
+                 }
+             }
+             if (d==true){
+                 // check now if the vg arraylist doesn't have  this pv1 either
+                 for (int i=0; i< v.getPhysicalVol().size();i++){
+                     if (v.getPhysicalVol().get(i).getName().equals(s)){
+                         d= false;
+                     }
+                 }
+                 if (d==false){
+                     System.out.println("I am sorry but the pv you are trying to add is already part of this vg called "+f);
+                 }
+                 else{
+                     v.addphysical(p);
+                     System.out.println("Wow this pv "+ s+ " has been extended to the vg "+ f);
+                     p.volume(v);
+                 }
+             }
+             else{
+                 System.out.println("Um this pv doesn't exist first make one named this with a harddrive");
+             }
+
+         }
+         else{
+             System.out.println("Um this vg does not exist first create this vg through a hardrive and pv");
+         }
+
+     }
 
    }
 
@@ -206,11 +276,13 @@ public class commands {
         {
             System.out.print(vol.get(i).getName() + ": ");
             System.out.print("total size:["+ vol.get(i).sizeofVolumeGroup() + "G]  free space:["+ vol.get(i).freeSpaceOfVG() + "G] ");
-
+           String x="";
             for( physicalVolume c : vol.get(i).getPhysicalVol())
             {
-                System.out.print("[" + c.getName() + "] ");
+               x+= ","+c.getName();
+
             }
+            System.out.print("[" + x + "] ");
             System.out.print("[" + vol.get(i).getUuid() + "]");
             System.out.println();
         }
@@ -270,10 +342,12 @@ public class commands {
             for (int i = 0; i < logicalVolum.size(); i++) {
                 System.out.print(logicalVolum.get(i).getName() + ": ");
                 System.out.print("[" + logicalVolum.get(i).getSize()+ "G]");
-
+                String x="";
                 for (int e = 0; e < logicalVolum.size(); e++) {
-                    System.out.print("[" + logicalVolum.get(i).v() + "] ");
+                    x+=","+logicalVolum.get(i).v();
+                    System.out.print("" + logicalVolum.get(i).v() + "");
                 }
+                System.out.print("[" + x + "]");
                 System.out.print("[" + vol.get(i).getUuid() + "]");
                 System.out.println();
 
